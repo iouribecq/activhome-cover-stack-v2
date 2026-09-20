@@ -1,4 +1,9 @@
-// Activhome Cover Stack V2 - v0.2.12 (no-build, dependency-free)
+// Activhome Cover Stack V2 - v0.2.13 (no-build, dependency-free)
+// CHANGELOG v0.2.13:
+// - FIX ALIGNMENT: restore the validated store_banne vertical alignment (translateY(3px)).
+// - FIX CACHE: restore centralized SVG cache-busting through ICON_VERSION.
+// - KEEP: Home Assistant native hass-action navigation introduced in v0.2.12.
+//
 // CHANGELOG v0.2.12:
 // - FIX NAVIGATION: navigation delegated to Home Assistant via hass-action.
 // - FIX NAVIGATION: removed direct browser history navigation to preserve subview history and native Back behavior.
@@ -46,6 +51,10 @@
 // - Otherwise, default is 20px (guaranteed), unless user sets default_font_size.
 
 (() => {
+  // Centralized cache-busting for Activhome SVG icons.
+  // Increment this value whenever the SVG artwork is updated.
+  const ICON_VERSION = "2";
+
   function fireEvent(node, type, detail = {}, options = {}) {
     const event = new CustomEvent(type, {
       bubbles: options.bubbles ?? true,
@@ -667,7 +676,7 @@
           .iconImg.banne{
             width: 100% !important;
             height: 100% !important;
-            transform: translateY(-6px);
+            transform: translateY(3px);
           }
 
           .nameBtn{
@@ -796,7 +805,7 @@
           if (coverVariant === "store_banne") {
             const pos = getDisplayPosition(stateObj, stateMode) ?? 0;
             const file = getStoreBanneIconFileFromPosition(pos);
-            iconSrc = `/local/community/activhome-icons/icons/storebanne_${file}.svg?v=1`;
+            iconSrc = `/local/community/activhome-icons/icons/storebanne_${file}.svg?v=${ICON_VERSION}`;
           } else {
             iconSrc = "mdi:projector-screen";
           }
@@ -805,7 +814,7 @@
         } else {
           const pos = getDisplayPosition(stateObj, stateMode) ?? 0;
           const file = getStoreIconFileFromPosition(pos);
-          iconSrc = `/local/community/activhome-icons/icons/store_${file}.svg?v=1`;
+          iconSrc = `/local/community/activhome-icons/icons/store_${file}.svg?v=${ICON_VERSION}`;
         }
 
         const row = document.createElement("div");
@@ -1003,10 +1012,10 @@
 
           if (variant === "store_banne") {
             const file = getStoreBanneIconFileFromPosition(pos);
-            src = `/local/community/activhome-icons/icons/storebanne_${file}.svg?v=1`;
+            src = `/local/community/activhome-icons/icons/storebanne_${file}.svg?v=${ICON_VERSION}`;
           } else if (variant === "store") {
             const file = getStoreIconFileFromPosition(pos);
-            src = `/local/community/activhome-icons/icons/store_${file}.svg?v=1`;
+            src = `/local/community/activhome-icons/icons/store_${file}.svg?v=${ICON_VERSION}`;
           }
 
           if (src && img.getAttribute("src") !== src) {
